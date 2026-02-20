@@ -103,6 +103,30 @@ input:focus {
   box-shadow: 0 0 0 3px rgba(61, 130, 179, 0.15);
 }
 
+.input-with-action {
+  position: relative;
+}
+
+.input-with-action input {
+  padding-right: 4.6rem;
+}
+
+.icon-toggle {
+  position: absolute;
+  right: 0.45rem;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 8px;
+  padding: 0.33rem 0.52rem;
+  font-size: 0.78rem;
+  background: #e4eef8;
+  color: #234a6a;
+}
+
+.icon-toggle:hover {
+  background: #d7e6f7;
+}
+
 button {
   border: 0;
   border-radius: 11px;
