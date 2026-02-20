@@ -106,8 +106,13 @@ export default function DashboardPage() {
   return (
     <main className="container">
       <header className="page-header">
-        <h1>Dashboard</h1>
-        <button onClick={logout}>Logout</button>
+        <div>
+          <p className="eyebrow">Task Workspace</p>
+          <h1>Dashboard</h1>
+        </div>
+        <button className="ghost-btn" onClick={logout}>
+          Logout
+        </button>
       </header>
 
       <form className="card inline-form" onSubmit={createTask}>
@@ -127,20 +132,23 @@ export default function DashboardPage() {
       {error ? <p className="error">{error}</p> : null}
 
       {loading ? (
-        <p>Loading tasks...</p>
+        <p className="card muted">Loading tasks...</p>
       ) : (
         <section className="task-list">
           {tasks.length === 0 ? (
-            <p className="card">No tasks yet.</p>
+            <p className="card muted">No tasks yet. Create your first one above.</p>
           ) : (
             tasks.map((task) => (
               <article className="card task-item" key={task._id}>
-                <div>
+                <div className="task-main">
                   <h3>{task.title}</h3>
                   <p className={`status status-${task.status.toLowerCase()}`}>{task.status}</p>
                 </div>
                 <div className="actions">
-                  <button onClick={() => updateTaskStatus(task._id, task.status)}>
+                  <button
+                    className="secondary-btn"
+                    onClick={() => updateTaskStatus(task._id, task.status)}
+                  >
                     Mark {task.status === "Completed" ? "Pending" : "Completed"}
                   </button>
                   <button className="danger" onClick={() => deleteTask(task._id)}>

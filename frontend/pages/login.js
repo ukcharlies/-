@@ -42,8 +42,10 @@ export default function LoginPage() {
 
   return (
     <main className="container center-page">
-      <form className="card" onSubmit={handleSubmit}>
-        <h1>Login</h1>
+      <form className="card auth-card" onSubmit={handleSubmit}>
+        <p className="eyebrow">Task Manager</p>
+        <h1>Welcome Back</h1>
+        <p className="muted">Sign in to manage your tasks efficiently.</p>
 
         <label htmlFor="email">Email</label>
         <input
