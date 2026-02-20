@@ -4,12 +4,15 @@ const User = require("../models/User");
 
 const protect = asyncHandler(async (req, res, next) => {
   const authHeader = req.headers.authorization;
+  const cookieName = process.env.COOKIE_NAME || "task_manager_token";
+  const cookieToken = req.cookies?.[cookieName];
+  const bearerToken =
+    authHeader && authHeader.startsWith("Bearer ") ? authHeader.split(" ")[1] : null;
+  const token = cookieToken || bearerToken;
 
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+  if (!token) {
     return res.status(401).json({ message: "Unauthorized: Missing or invalid token" });
   }
-
-  const token = authHeader.split(" ")[1];
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -27,4 +30,3 @@ const protect = asyncHandler(async (req, res, next) => {
 });
 
 module.exports = { protect };
-
