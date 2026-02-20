@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { apiRequest } from "../lib/api";
-import { setToken, getToken } from "../lib/auth";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -11,9 +10,16 @@ export default function LoginPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (getToken()) {
-      router.replace("/dashboard");
-    }
+    const checkSession = async () => {
+      try {
+        await apiRequest("/auth/me");
+        router.replace("/dashboard");
+      } catch (_error) {
+        // No active session, stay on login page.
+      }
+    };
+
+    checkSession();
   }, [router]);
 
   const handleSubmit = async (event) => {
@@ -22,11 +28,10 @@ export default function LoginPage() {
     setError("");
 
     try {
-      const response = await apiRequest("/auth/login", {
+      await apiRequest("/auth/login", {
         method: "POST",
         body: JSON.stringify({ email, password })
       });
-      setToken(response.token);
       router.push("/dashboard");
     } catch (requestError) {
       setError(requestError.message || "Login failed");

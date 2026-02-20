@@ -1,14 +1,22 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { getToken } from "../lib/auth";
+import { apiRequest } from "../lib/api";
 
 export default function HomePage() {
   const router = useRouter();
 
   useEffect(() => {
-    router.replace(getToken() ? "/dashboard" : "/login");
+    const routeBySession = async () => {
+      try {
+        await apiRequest("/auth/me");
+        router.replace("/dashboard");
+      } catch (_error) {
+        router.replace("/login");
+      }
+    };
+
+    routeBySession();
   }, [router]);
 
   return null;
 }
-
